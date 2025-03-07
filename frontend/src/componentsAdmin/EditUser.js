@@ -35,7 +35,8 @@ useEffect(() => {
   }
 
   const getUserById = async () => {
-      const response = await axios.get(`${API_URL}/users/${id}`);
+      // const response = await axios.get(`${API_URL}/users/${id}`);
+      const response = await axios.get(`/api/users/${id}`);
       setName(response.data.name);
       setPassword(response.data.password);
       setEmail(response.data.email);
