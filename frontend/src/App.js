@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AddUser from "./componentsAdmin/AddUser";
 import UserList from "./componentsAdmin/UserList";
 import EditUser from "./componentsAdmin/EditUser";
-import { getUsers } from "./api";
+
 
 function App() {
   return (
