@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaEdit, FaSort, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaEdit, FaTrash, FaSort } from "react-icons/fa";
 
 const API_URL = "http://34.135.67.5:3002";
 
