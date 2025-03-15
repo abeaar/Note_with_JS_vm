@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaEdit, FaSort, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const API_URL = "http://34.135.67.5:3002";
+const API_URL = "/api/";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
