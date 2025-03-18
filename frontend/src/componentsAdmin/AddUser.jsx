@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://34.135.67.5:3002"; // URL API
+const API_URL = "/api/"; // URL API
 
 const AddUser = () => {
 const [name, setName] = useState("");
