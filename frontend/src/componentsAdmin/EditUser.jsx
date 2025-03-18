@@ -6,7 +6,7 @@ const API_URL = "/api/users"; // URL API
 
 const EditUser = () => {
   const [name, setName] = useState("");
-  const [password, setPassword] = useState(""); // Tidak direkomendasikan menyimpan password di state
+  const [password, setPassword] = useState(""); 
   const [email, setEmail] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -19,6 +19,7 @@ const EditUser = () => {
     try {
       const response = await axios.get(`${API_URL}/${id}`);
       setName(response.data.name);
+      setPassword(response.data.password);
       setEmail(response.data.email);
       setTitle(response.data.title);
       setCategory(response.data.category);
@@ -37,7 +38,7 @@ const EditUser = () => {
     try {
       await axios.patch(`${API_URL}/${id}`, {
         name,
-        password: password || undefined, // Hanya kirim password jika diisi
+        password, // Hanya kirim password jika diisi
         email,
         title,
         category,
@@ -67,7 +68,7 @@ const EditUser = () => {
           </div>
 
           <div className="field">
-            <label className="label">Password (optional)</label>
+            <label className="label">Password</label>
             <div className="control">
               <input
                 type="password"
