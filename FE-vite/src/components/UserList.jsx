@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaSort, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const API_URL = "/api/";
+const API_URL = "http://34.135.67.5:3002";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -32,78 +31,77 @@ const UserList = () => {
     }
   };
 
-  const filteredUsers = users.filter((user) =>
+// Filter data sesuai search term
+const filteredUsers = searchTerm
+? users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
+: users;
 
-  const sortedUsers = [...filteredUsers].sort((a, b) =>
-    sortOrder === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
-  );
+// Sorting berdasarkan nama
+const sortedUsers = [...filteredUsers].sort((a, b) => {
+return sortOrder === "asc"
+  ? a.name.localeCompare(b.name)
+  : b.name.localeCompare(a.name);
+});
 
-  const toggleSortOrder = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  };
+// Fungsi toggle sorting
+const toggleSortOrder = () => {
+setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+};
 
   return (
-    <div className="flex justify-center p-6">
-      <div className="w-full max-w-4xl bg-gray-800 text-white p-6 rounded-lg shadow-lg">
-        <div className="flex justify-between items-center mb-4">
-          <Link to={`add`} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Add New
-          </Link>
+      <div className="columns mt-5 is-centered">
+        <div className="column is-half">
+          <Link to={`add`} className="button is-success mb-3">Add new</Link>
+          
+          {/* Search Bar */}
           <input
             type="text"
-            className="w-1/3 p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input mb-3"
             placeholder="Search by name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-600">
-            <thead>
-              <tr className="bg-gray-700 text-left">
-                <th className="p-3 border border-gray-600">No</th>
-                <th className="p-3 border border-gray-600">
-                  Name
-                  <button onClick={toggleSortOrder} className="ml-2">
-                    <FaSort />
-                  </button>
-                </th>
-                <th className="p-3 border border-gray-600">Email</th>
-                <th className="p-3 border border-gray-600">Title</th>
-                <th className="p-3 border border-gray-600">Category</th>
-                <th className="p-3 border border-gray-600">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedUsers.map((user, index) => (
-                <tr key={user._id} className="hover:bg-gray-700">
-                  <td className="p-3 border border-gray-600">{index + 1}</td>
-                  <td className="p-3 border border-gray-600">{user.name}</td>
-                  <td className="p-3 border border-gray-600">{user.email}</td>
-                  <td className="p-3 border border-gray-600">{user.title}</td>
-                  <td className="p-3 border border-gray-600">{user.category}</td>
-                  <td className="p-3 border border-gray-600 flex gap-2">
-                    <Link to={`edit/${user.id}`} className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
-                      <FaEdit />
-                    </Link>
-                    <button
-                      onClick={() => deleteUser(user.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                      <FaTrash />
+  
+  
+          {sortedUsers.length > 0 && (
+            <table className='table is-striped is-fullwidth'>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>
+                    Name{" "}
+                    <button onClick={toggleSortOrder} className="button is-small is-light">
+                      {sortOrder === "asc" ? "▲" : "▼"}
                     </button>
-                  </td>
+                  </th>
+                  <th>Email</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {sortedUsers.map((user, index) => (
+                  <tr key={user._id}>
+                    <td>{index + 1}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.title}</td>
+                    <td>{user.category}</td>
+                    <td>
+                      <Link to={`edit/${user.id}`} className="button is-small is-info">Edit</Link>
+                      <button onClick={() => deleteUser(user.id)} className="button is-small is-danger">Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default UserList;
